@@ -29,3 +29,5 @@ Uma calculadora funcional desenvolvida em React para praticar lógica de program
 ![Esbuild](https://img.shields.io/badge/esbuild-%23FFCF00.svg?style=for-the-badge&logo=esbuild&logoColor=black)
 
 ## Como utilizar a calculadora
+
+Quer ver como ficou? Basta clicar [aqui!](https://lily-calculator.vercel.app/)
