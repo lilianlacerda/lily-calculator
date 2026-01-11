@@ -32,7 +32,3 @@ export const Row = styled.div`
     gap: 5px;
 `
 
-export const Column = styled.div`
-    margin: 20px;
-`
-
