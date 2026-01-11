@@ -12,9 +12,8 @@ export const Container = styled.div`
 
 export const Content = styled.div`
     background-color: #1E1E1E;
-    width: 20%;
-    max-whidth: 350px;
-    max-heigh: 350px;
+    width: 90%;
+    max-width: 350px;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
@@ -22,6 +21,12 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 13px;
+
+    @media (max-width: 400px) {
+        width: 95%;
+        padding: 15px;
+        gap: 8px;
+    }
 `
 
 export const Row = styled.div`
