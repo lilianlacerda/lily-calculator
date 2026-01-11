@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const ButtonContainer = styled.button`
     flex: 1;
     aspect-ratio: 1/1; 
-    margin: 5px;
     border-radius: 10px;
     cursor: pointer;
 
@@ -11,11 +10,11 @@ export const ButtonContainer = styled.button`
         if(props.label === 'C') return '#FF4B4B';
         if(props.label === '=') return '#2ECC71';
         if(['/', 'X', '-', '+', '%'].includes(props.label)) return '#FF9500';
-        return '#00aef8ff';
+        return '#00aef8';
     }}; 
 
-    border: 2px solid #29407ea8;
-    color: #ffffffff;
+    border: 2px solid #310b0bff;
+    color: #ffffff;
     font-size: 24px;
     font-weight: 700;
 
