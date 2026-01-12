@@ -14,7 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "esbuild src/index.js --outfile=dist/bundle.js --loader:.js=jsx --bundle --minify --jsx=automatic --serve=3000 --servedir=dist --watch ",
     "build": "esbuild src/index.js --outfile=dist/bundle.js --loader:.js=jsx --bundle --minify --jsx=automatic",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
