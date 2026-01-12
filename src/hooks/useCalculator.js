@@ -1,124 +1,93 @@
 import { useState } from "react";
 
-export const useCalculator = () =>{
-    const [currentNumber, setCurrentNumber] = useState("0");
+export const useCalculator = () => {
+  const [currentNumber, setCurrentNumber] = useState("0");
   const [firstNumber, setFirstNumber] = useState("0");
   const [operation, setOperation] = useState("");
+  const [isNewNumber, setIsNewNumber] = useState(false);
 
   const handleOnClear = () => {
-    setCurrentNumber('0');
-    setFirstNumber('0');
-    setOperation('');
+    setCurrentNumber("0");
+    setFirstNumber("0");
+    setOperation("");
+    setIsNewNumber(false);
   };
 
   const handleClearLastNumber = () => {
-    setCurrentNumber('0');
-  }
+    setCurrentNumber("0");
+  };
 
   const handleAddNumber = (number) => {
-    setCurrentNumber((prev) => `${prev === '0' ? '' : prev}${number}`);
+    setCurrentNumber((prev) => {
+      if(isNewNumber){
+        setIsNewNumber(false);
+        return String(number);
+      }
+      return`${prev === '0' ? '' : prev}${number}`;
+    });
   };
 
-  const handleSumNumbers = () => {
-    if (firstNumber === '0') {
-      setFirstNumber(String(currentNumber));
-      setCurrentNumber('0');
-      setOperation('+');
-    } else {
-      const sum = Number(firstNumber) + Number(currentNumber);
-      setCurrentNumber(String(sum));
-      setOperation('');
-    }
-  };
+  const calculate = () => {
+    const current = Number(currentNumber);
+    const first = Number(firstNumber);
+    let result = 0;
 
-  const handleMinusNumbers = () => {
-    if (firstNumber === '0') {
-      setFirstNumber(String(currentNumber));
-      setCurrentNumber('0');
-      setOperation('-');
-    } else {
-      const minus = Number(firstNumber) - Number(currentNumber);
-      setCurrentNumber(String(minus));
-      setOperation('');
-    }
-  };
-
-  const handleMultiplyNumbers = () => {
-    if(firstNumber === '0'){
-      setFirstNumber (String(currentNumber));
-      setCurrentNumber('0');
-      setOperation('*');
-    }else{
-      const multiply = Number(firstNumber) * Number(currentNumber);
-      setCurrentNumber(String(multiply));
-      setOperation('');
-    }
-  }
-
-  const handleDivisorNumbers = () => {
-    if(firstNumber === '0'){
-      setFirstNumber(String(currentNumber));
-      setCurrentNumber('0');
-      setOperation('/');
-    }else{
-        if(currentNumber === '0'){
-            alert('Não é possível dividir por zero!!');
-            handleClearLastNumber();
-            return;
+    switch(operation){
+      case '+': 
+        result = first + current;
+        break;
+      case '-': 
+        result = first - current;
+        break;
+      case '*': 
+        result = first * current;
+        break;
+      case '/':
+        if(current === 0){
+          alert('Não é possível dividir por zero!');
+          return first;
         }
-      const divisor = Number(firstNumber) / Number(currentNumber);
-      setCurrentNumber (String(divisor));
-      setOperation('');
+        result = first / current;
+        break;
+      case '%':
+        result = first % current;
+        break;  
+      default:
+        return current;  
     }
-  }
+    return result;
+  };
 
-  const handleRestNumbers = () => {
+  const handleOperation = (op) =>{
     if(firstNumber === '0'){
-      setFirstNumber(String(currentNumber));
-      setCurrentNumber('0');
-      setOperation('%');
+      setFirstNumber(currentNumber);
+      setOperation(op);
+      setIsNewNumber(true);
     }else{
-      const rest = Number(firstNumber) % Number(currentNumber);
-      setCurrentNumber (String(rest));
-      setOperation('');
+      const result = calculate();
+      setFirstNumber(String(result));
+      setCurrentNumber(String(result));
+      setOperation(op);
+      setIsNewNumber(true);
     }
-  }
+  };
 
   const handleNegativeNumber = () => {
     //prev = previous state
-    setCurrentNumber(prev => {
-      if(prev === '0') return prev;
-
+    setCurrentNumber((prev) => {
+      if (prev === "0") return prev;
       const result = Number(prev) * -1;
       return String(result);
-    }); 
+    });
   };
 
   const handleEquals = () => {
-    if (firstNumber !== '0' && operation !== '' && currentNumber !== '0') {
-      switch (operation) {
-        case '+':
-          handleSumNumbers();
-          break;
-        case '-':
-          handleMinusNumbers();
-          break;
-        case '*':
-          handleMultiplyNumbers();
-          break;
-        case '/':
-          handleDivisorNumbers();
-          break;      
-        case '%':
-          handleRestNumbers();
-          break;
-        case '+/-':
-          handleNegativeNumber();
-          break;
-
-        default:
-          break;
-      }
+    if (operation !== "") {
+      const result = calculate();
+      setCurrentNumber(String(result));
+      setFirstNumber('0');
+      setOperation('');
+      setFirstNumber(true);
     }
   };
 
@@ -126,14 +95,13 @@ export const useCalculator = () =>{
     handleOnClear,
     currentNumber, // único dado enviado pois ele fica visivél na UI
     handleAddNumber,
-    handleSumNumbers,
-    handleMinusNumbers,
-    handleMultiplyNumbers,
-    handleDivisorNumbers,
+    handleSumNumbers: () => handleOperation('+'),
+    handleMinusNumbers: () => handleOperation('-'),
+    handleMultiplyNumbers: () => handleOperation('*'),
+    handleDivisorNumbers: () => handleOperation('/'),
+    handleRestNumbers: () => handleOperation('%'),
     handleEquals,
     handleClearLastNumber,
-    handleRestNumbers,
-    handleNegativeNumber
-  }
-
-}
+    handleNegativeNumber,
+  };
+};
